@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen>
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 8,
+                        height: 10,
                         decoration: BoxDecoration(
                           color: AppColors.progressTrack,
                           borderRadius: BorderRadius.circular(10),
