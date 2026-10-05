@@ -46,6 +46,7 @@ app.*.map.json
 
 # Graphify Knowledge Graph Outputs
 graphify-out/
+.agents/
 .graphify*
 
 # Environment & Security / Secret Files
