@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../onboarding/presentation/screens/onboarding_screen.dart';
 import '../widgets/splash_logo.dart';
 import '../widgets/splash_tagline.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,8 +22,23 @@ class _SplashScreenState extends State<SplashScreen>
     _progressController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
-    )..forward();
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _navigateToOnboarding();
+        }
+      })
+      ..forward();
   }
+
+  Future<void> _navigateToOnboarding() async {
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const OnboardingScreen(),
+      ),
+    );
+  }
+
 
   @override
   void dispose() {

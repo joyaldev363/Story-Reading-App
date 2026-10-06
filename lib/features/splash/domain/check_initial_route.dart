@@ -9,7 +9,7 @@ class CheckInitialRouteUseCase {
   Future<String> execute() async {
     final isFirst = await datasource.isFirstLaunch();
     if (isFirst) {
-      return RouteNames.home;
+      return RouteNames.onboarding;
     }
     final hasToken = await datasource.hasAuthToken();
     if (hasToken) {

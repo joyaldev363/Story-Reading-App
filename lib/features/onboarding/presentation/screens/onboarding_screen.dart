@@ -57,9 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _navigateToNextScreen() {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const LanguageSelectionScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
     );
   }
 
@@ -75,7 +73,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             // Top Bar with Skip Button
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 12.0,
+              ),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -85,10 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   child: const Text(
                     'Skip',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -159,20 +157,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     )
                   : Row(
                       children: [
-                        TextButton(
-                          onPressed: _onBackPressed,
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColors.navyBlue,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          child: const Text(
-                            'Back',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                        Expanded(
+                          child: SizedBox(
+                            height: 54,
+                            child: OutlinedButton(
+                              onPressed: _onBackPressed,
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: AppColors.navyBlue,
+                                side: const BorderSide(
+                                  color: AppColors.navyBlue,
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28.0),
+                                ),
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.arrow_back_rounded, size: 20),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Back',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -196,12 +209,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   Text(
                                     isLastPage ? 'Get Started' : 'Next',
                                     style: const TextStyle(
-                                      fontSize: 17,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   const SizedBox(width: 8),
-                                  const Icon(Icons.arrow_forward_rounded, size: 20),
+                                  const Icon(
+                                    Icons.arrow_forward_rounded,
+                                    size: 20,
+                                  ),
                                 ],
                               ),
                             ),
