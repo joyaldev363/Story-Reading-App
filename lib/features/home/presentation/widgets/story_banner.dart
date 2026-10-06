@@ -41,7 +41,7 @@ class StoryBannerWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(banners.length > 1 ? banners.length : 4, (index) {
-              final isCurrent = index == (activeIndex % (banners.length > 0 ? banners.length : 1));
+              final isCurrent = index == (activeIndex % (banners.isNotEmpty ? banners.length : 1));
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 margin: const EdgeInsets.symmetric(horizontal: 4.0),

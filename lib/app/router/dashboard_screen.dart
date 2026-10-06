@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import 'package:storyly/features/home/presentation/pages/home_page.dart';
 import '../../features/discover/presentation/screens/discover_screen.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/saved/presentation/screens/saved_screen.dart';
 
@@ -16,7 +16,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
-    HomeScreen(),
+   HomePage(),
     DiscoverScreen(),
     SavedScreen(),
     ProfileScreen(),
