@@ -76,6 +76,7 @@ class _SplashScreenState extends State<SplashScreen>
               const Spacer(flex: 3),
 
               // Bottom Progress Bar & Loading Message
+              
               AnimatedBuilder(
                 animation: _progressController,
                 builder: (context, child) {
