@@ -40,8 +40,12 @@ class StoryBannerWidget extends StatelessWidget {
           // Pagination Dots
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(banners.length > 1 ? banners.length : 4, (index) {
-              final isCurrent = index == (activeIndex % (banners.isNotEmpty ? banners.length : 1));
+            children: List.generate(banners.length > 1 ? banners.length : 4, (
+              index,
+            ) {
+              final isCurrent =
+                  index ==
+                  (activeIndex % (banners.isNotEmpty ? banners.length : 1));
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -66,10 +70,7 @@ class StoryBannerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24.0),
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF1B2A4A),
-            Color(0xFF2C3E65),
-          ],
+          colors: [Color(0xFF1B2A4A), Color(0xFF2C3E65)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -125,7 +126,10 @@ class StoryBannerWidget extends StatelessWidget {
               children: [
                 // Badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 4.0,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.accentGold,
                     borderRadius: BorderRadius.circular(16.0),
@@ -133,7 +137,11 @@ class StoryBannerWidget extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.star_rounded, size: 14, color: AppColors.navyBlue),
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 14,
+                        color: AppColors.navyBlue,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         story.badgeTag ?? 'Story of the Day',
@@ -176,27 +184,27 @@ class StoryBannerWidget extends StatelessWidget {
                 ),
 
                 // Specs & CTA Button
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.menu_book_rounded, size: 14, color: Colors.white70),
-                        const SizedBox(width: 4),
-                        Text(
-                          story.languageLabel,
-                          style: const TextStyle(fontSize: 11, color: Colors.white70),
-                        ),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.access_time_rounded, size: 14, color: Colors.white70),
-                        const SizedBox(width: 4),
-                        Text(
-                          story.readTime,
-                          style: const TextStyle(fontSize: 11, color: Colors.white70),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Row(
+                //       children: [
+                //         const Icon(Icons.menu_book_rounded, size: 14, color: Colors.white70),
+                //         const SizedBox(width: 4),
+                //         Text(
+                //           story.languageLabel,
+                //           style: const TextStyle(fontSize: 11, color: Colors.white70),
+                //         ),
+                //         const SizedBox(width: 8),
+                //         const Icon(Icons.access_time_rounded, size: 14, color: Colors.white70),
+                //         const SizedBox(width: 4),
+                //         Text(
+                //           story.readTime,
+                //           style: const TextStyle(fontSize: 11, color: Colors.white70),
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
 
                 // Read Story Button
                 ElevatedButton(
@@ -208,14 +216,20 @@ class StoryBannerWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 8.0,
+                    ),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'Read Story',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(width: 6),
                       Icon(Icons.arrow_forward_rounded, size: 16),
