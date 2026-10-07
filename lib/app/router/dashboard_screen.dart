@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:storyly/features/discover/presentation/pages/discover_page.dart';
 import '../theme/app_colors.dart';
 import 'package:storyly/features/home/presentation/pages/home_page.dart';
-import '../../features/discover/presentation/screens/discover_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/saved/presentation/screens/saved_screen.dart';
 
@@ -16,8 +16,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
-   HomePage(),
-    DiscoverScreen(),
+    HomePage(),
+    DiscoverPage(),
     SavedScreen(),
     ProfileScreen(),
   ];
@@ -25,10 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -59,10 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             }),
             iconTheme: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
-                return const IconThemeData(
-                  color: AppColors.navyBlue,
-                  size: 26,
-                );
+                return const IconThemeData(color: AppColors.navyBlue, size: 26);
               }
               return const IconThemeData(
                 color: AppColors.subtitleSlate,

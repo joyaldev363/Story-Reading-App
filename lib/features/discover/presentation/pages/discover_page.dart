@@ -51,9 +51,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           builder: (context, _) {
             if (_controller.isLoading) {
               return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFF6366F1),
-                ),
+                child: CircularProgressIndicator(color: Color(0xFF6366F1)),
               );
             }
 
@@ -65,22 +63,16 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   // Padding Header & Search section
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 20.0),
+                      padding: const EdgeInsets.fromLTRB(
+                        20.0,
+                        16.0,
+                        20.0,
+                        20.0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          DiscoverHeader(
-                            hasNotification: _controller.hasNotification,
-                            onNotificationTap: () {
-                              _controller.clearNotificationBadge();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('No new notifications'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            },
-                          ),
+                          const DiscoverHeader(),
                           const SizedBox(height: 20),
                           DiscoverSearchBar(
                             query: _controller.searchQuery,
@@ -100,12 +92,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             },
                           ),
                           const SizedBox(height: 24),
-                          PopularStoriesHeader(
-                            onSeeAllTap: () {
-                              // View all action
-                            },
-                          ),
-                          const SizedBox(height: 16),
+                          const PopularStoriesHeader(),
                         ],
                       ),
                     ),
@@ -142,32 +129,27 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final story = _controller.popularStories[index];
-                            return DiscoverStoryCard(
-                              story: story,
-                              onFavoriteTap: () {
-                                _controller.toggleFavorite(story.id);
-                              },
-                              onTap: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Opening "${story.title}"'),
-                                    duration: const Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          childCount: _controller.popularStories.length,
-                        ),
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final story = _controller.popularStories[index];
+                          return DiscoverStoryCard(
+                            story: story,
+                            onFavoriteTap: () {
+                              _controller.toggleFavorite(story.id);
+                            },
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Opening "${story.title}"'),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                          );
+                        }, childCount: _controller.popularStories.length),
                       ),
                     ),
 
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 24),
-                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 24)),
                 ],
               ),
             );
