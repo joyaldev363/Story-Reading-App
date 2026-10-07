@@ -6,6 +6,7 @@ Storyly is a simple, distraction-free Tamil + English bilingual story reading ap
 
 ## Key Features
 
+
 * **Bilingual Reading Modes**: Read stories in English, Tamil, or Bilingual Mode (side-by-side / toggle view).
 * **Discover by Category**: Explore stories organized by genre, theme, and reading level.
 * **Favorites & Saved Stories**: Easily bookmark your favorite stories for quick access.
