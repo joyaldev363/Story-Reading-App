@@ -3,7 +3,7 @@ import 'package:storyly/features/discover/presentation/pages/discover_page.dart'
 import '../theme/app_colors.dart';
 import 'package:storyly/features/home/presentation/pages/home_page.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
-import '../../features/saved/presentation/screens/saved_screen.dart';
+import 'package:storyly/features/saved/presentation/pages/saved_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -18,7 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _screens = const [
     HomePage(),
     DiscoverPage(),
-    SavedScreen(),
+    SavedPage(),
     ProfileScreen(),
   ];
 
