@@ -7,6 +7,9 @@ import '../../domain/usecases/logout.dart';
 import '../../domain/usecases/update_language.dart';
 import '../../domain/usecases/update_profile.dart';
 import '../controller/profile_controller.dart';
+import 'about_storyly_page.dart';
+import 'help_support_page.dart';
+import 'privacy_security_page.dart';
 import '../widgets/account_section.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/preferences_section.dart';
@@ -55,17 +58,13 @@ class _ProfilePageState extends State<ProfilePage> {
           builder: (context, child) {
             if (_controller.isLoading) {
               return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFF635BFF),
-                ),
+                child: CircularProgressIndicator(color: Color(0xFF635BFF)),
               );
             }
 
             final profile = _controller.profile;
             if (profile == null) {
-              return const Center(
-                child: Text('Unable to load profile data.'),
-              );
+              return const Center(child: Text('Unable to load profile data.'));
             }
 
             return SingleChildScrollView(
@@ -113,13 +112,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       _showSnackBar('Edit profile details');
                     },
                     onPrivacyTap: () {
-                      _showSnackBar('Privacy & Security settings');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PrivacySecurityPage(),
+                        ),
+                      );
                     },
                     onHelpTap: () {
-                      _showSnackBar('Help & Support section');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HelpSupportPage(),
+                        ),
+                      );
                     },
                     onAboutTap: () {
-                      _showAboutDialog(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AboutStorylyPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -142,10 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 1),
-      ),
+      SnackBar(content: Text(message), duration: const Duration(seconds: 1)),
     );
   }
 
@@ -173,8 +184,12 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 16),
               ListTile(
                 title: const Text('English • தமிழ்'),
-                trailing: _controller.profile?.languageLabel == 'English • தமிழ்'
-                    ? const Icon(Icons.check_circle_rounded, color: Color(0xFF635BFF))
+                trailing:
+                    _controller.profile?.languageLabel == 'English • தமிழ்'
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: Color(0xFF635BFF),
+                      )
                     : null,
                 onTap: () {
                   _controller.changeLanguage('English • தமிழ்');
@@ -184,7 +199,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ListTile(
                 title: const Text('English Only'),
                 trailing: _controller.profile?.languageLabel == 'English Only'
-                    ? const Icon(Icons.check_circle_rounded, color: Color(0xFF635BFF))
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: Color(0xFF635BFF),
+                      )
                     : null,
                 onTap: () {
                   _controller.changeLanguage('English Only');
@@ -194,7 +212,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ListTile(
                 title: const Text('தமிழ் மட்டும்'),
                 trailing: _controller.profile?.languageLabel == 'தமிழ் மட்டும்'
-                    ? const Icon(Icons.check_circle_rounded, color: Color(0xFF635BFF))
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: Color(0xFF635BFF),
+                      )
                     : null,
                 onTap: () {
                   _controller.changeLanguage('தமிழ் மட்டும்');

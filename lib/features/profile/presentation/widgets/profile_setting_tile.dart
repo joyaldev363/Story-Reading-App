@@ -27,14 +27,13 @@ class ProfileSettingTile extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 14.0,
+            ),
             child: Row(
               children: [
-                Icon(
-                  icon,
-                  color: AppColors.navyBlue,
-                  size: 24,
-                ),
+                Icon(icon, color: AppColors.navyBlue, size: 24),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -74,11 +73,7 @@ class ProfileSettingTile extends StatelessWidget {
         if (showDivider)
           const Padding(
             padding: EdgeInsets.only(left: 56.0, right: 16.0),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: Color(0xFFF1F5F9),
-            ),
+            child: Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
           ),
       ],
     );

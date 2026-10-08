@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class LogoutButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const LogoutButton({
-    super.key,
-    required this.onTap,
-  });
+  const LogoutButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +21,7 @@ class LogoutButton extends StatelessWidget {
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.logout_rounded,
-                color: Color(0xFFFF4D4D),
-                size: 20,
-              ),
+              Icon(Icons.logout_rounded, color: Color(0xFFFF4D4D), size: 20),
               SizedBox(width: 8),
               Text(
                 'Log Out',
