@@ -54,9 +54,7 @@ class _SavedPageState extends State<SavedPage> {
           builder: (context, child) {
             if (_controller.isLoading) {
               return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFF635BFF),
-                ),
+                child: CircularProgressIndicator(color: Color(0xFF635BFF)),
               );
             }
 
@@ -74,14 +72,6 @@ class _SavedPageState extends State<SavedPage> {
                   // Top Header
                   SliverToBoxAdapter(
                     child: SavedHeader(
-                      onNotificationTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Notifications tapped'),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      },
                       onMoreTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -96,7 +86,8 @@ class _SavedPageState extends State<SavedPage> {
                   // Search Bar
                   SliverToBoxAdapter(
                     child: SavedSearchBar(
-                      onChanged: (query) => _controller.updateSearchQuery(query),
+                      onChanged: (query) =>
+                          _controller.updateSearchQuery(query),
                     ),
                   ),
 
@@ -107,13 +98,12 @@ class _SavedPageState extends State<SavedPage> {
                       allCount: _controller.allCount,
                       unreadCount: _controller.unreadCount,
                       readingCount: _controller.readingCount,
-                      onFilterSelected: (filter) => _controller.selectFilter(filter),
+                      onFilterSelected: (filter) =>
+                          _controller.selectFilter(filter),
                     ),
                   ),
 
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 8),
-                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 8)),
 
                   // Stories List or Empty State
                   if (stories.isEmpty)
@@ -153,30 +143,26 @@ class _SavedPageState extends State<SavedPage> {
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final story = stories[index];
-                            return SavedStoryCard(
-                              story: story,
-                              onTap: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Opening ${story.title}'),
-                                    duration: const Duration(seconds: 1),
-                                  ),
-                                );
-                              },
-                              onBookmarkTap: () => _controller.toggleSaved(story.id),
-                            );
-                          },
-                          childCount: stories.length,
-                        ),
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final story = stories[index];
+                          return SavedStoryCard(
+                            story: story,
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Opening ${story.title}'),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              );
+                            },
+                            onBookmarkTap: () =>
+                                _controller.toggleSaved(story.id),
+                          );
+                        }, childCount: stories.length),
                       ),
                     ),
 
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 32),
-                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 32)),
                 ],
               ),
             );

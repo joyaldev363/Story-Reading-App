@@ -5,11 +5,7 @@ class SavedHeader extends StatelessWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onMoreTap;
 
-  const SavedHeader({
-    super.key,
-    this.onNotificationTap,
-    this.onMoreTap,
-  });
+  const SavedHeader({super.key, this.onNotificationTap, this.onMoreTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,55 +28,12 @@ class SavedHeader extends StatelessWidget {
                   letterSpacing: -0.5,
                 ),
               ),
-              SizedBox(height: 2),
-              Text(
-                'Your saved stories',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.subtitleSlate,
-                ),
-              ),
             ],
           ),
 
           // Right: Bell notification with badge & More Vert
           Row(
             children: [
-              GestureDetector(
-                onTap: onNotificationTap,
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      const Icon(
-                        Icons.notifications_none_rounded,
-                        color: AppColors.navyBlue,
-                        size: 28,
-                      ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFF5252),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 4),
               IconButton(
                 icon: const Icon(
                   Icons.more_vert_rounded,
