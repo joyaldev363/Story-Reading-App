@@ -4,10 +4,7 @@ import '../../../../app/theme/app_colors.dart';
 class ProfileHeader extends StatelessWidget {
   final VoidCallback? onSettingsTap;
 
-  const ProfileHeader({
-    super.key,
-    this.onSettingsTap,
-  });
+  const ProfileHeader({super.key, this.onSettingsTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +23,6 @@ class ProfileHeader extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   color: AppColors.navyBlue,
                   letterSpacing: -0.5,
-                ),
-              ),
-              SizedBox(height: 2),
-              Text(
-                'Your account details',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.subtitleSlate,
                 ),
               ),
             ],
