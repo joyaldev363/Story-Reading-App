@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:storyly/features/discover/presentation/pages/discover_page.dart';
 import '../theme/app_colors.dart';
 import 'package:storyly/features/home/presentation/pages/home_page.dart';
-import '../../features/profile/presentation/screens/profile_screen.dart';
+import 'package:storyly/features/profile/presentation/pages/profile_page.dart';
 import 'package:storyly/features/saved/presentation/pages/saved_page.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     HomePage(),
     DiscoverPage(),
     SavedPage(),
-    ProfileScreen(),
+    ProfilePage(),
   ];
 
   @override
