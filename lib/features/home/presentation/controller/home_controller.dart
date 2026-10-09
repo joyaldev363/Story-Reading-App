@@ -55,25 +55,30 @@ class HomeController extends ChangeNotifier {
       final filtered = list.where((story) {
         final title = story.title.toLowerCase();
         final desc = story.description.toLowerCase();
-        if (catTitle == 'easy')
+        if (catTitle == 'easy') {
           return story.readTime.contains('5 min') || desc.contains('easy');
-        if (catTitle == 'animals')
+        }
+        if (catTitle == 'animals') {
           return title.contains('dog') ||
               title.contains('fox') ||
               title.contains('lion');
-        if (catTitle == 'fun' || catTitle == 'moral')
+        }
+        if (catTitle == 'fun' || catTitle == 'moral') {
           return desc.contains('fun') ||
               desc.contains('moral') ||
               desc.contains('heartwarming') ||
               title.contains('fox');
-        if (catTitle == 'fantasy')
+        }
+        if (catTitle == 'fantasy') {
           return title.contains('moon') ||
               desc.contains('adventure') ||
               desc.contains('magical');
-        if (catTitle == 'classic')
+        }
+        if (catTitle == 'classic') {
           return title.contains('girl') ||
               desc.contains('kindness') ||
               desc.contains('lion');
+        }
         return title.contains(catTitle) || desc.contains(catTitle);
       }).toList();
 

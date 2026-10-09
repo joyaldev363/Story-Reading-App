@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:storyly/features/home/domain/entities/story.dart';
+import 'package:storyly/features/home/presentation/pages/story_details_page.dart';
 import '../../data/datasources/discover_datasource.dart';
 import '../../data/repositories/discover_repository_impl.dart';
 import '../../domain/usecases/get_popular_stories.dart';
@@ -137,10 +139,22 @@ class _DiscoverPageState extends State<DiscoverPage> {
                               _controller.toggleFavorite(story.id);
                             },
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Opening "${story.title}"'),
-                                  duration: const Duration(seconds: 2),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StoryDetailsPage(
+                                    story: StoryEntity(
+                                      id: story.id,
+                                      title: story.title,
+                                      description: story.description,
+                                      coverUrl: story.coverUrl,
+                                      languageLabel: story.languageLabel,
+                                      readTime: story.readTime,
+                                      rating: story.rating,
+                                      reviewCount: story.reviewCount,
+                                      isFavorite: story.isFavorite,
+                                    ),
+                                  ),
                                 ),
                               );
                             },
