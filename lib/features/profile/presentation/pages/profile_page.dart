@@ -229,25 +229,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showAboutDialog(BuildContext context) {
-    showAboutDialog(
-      context: context,
-      applicationName: 'Storyly',
-      applicationVersion: '1.0.0+1',
-      applicationIcon: const Icon(
-        Icons.auto_stories_rounded,
-        size: 48,
-        color: Color(0xFF635BFF),
-      ),
-      children: [
-        const SizedBox(height: 8),
-        const Text(
-          'Storyly is a bilingual Tamil and English story reading platform designed for immersive learning and entertainment.',
-        ),
-      ],
-    );
-  }
-
   void _showLogoutConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
