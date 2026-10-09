@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../domain/entities/story.dart';
+import '../widgets/story_action_bar.dart';
+import '../widgets/story_content_card.dart';
+import '../widgets/story_details_header.dart';
+import '../widgets/story_details_metadata.dart';
+import '../widgets/story_moral_card.dart';
+import '../widgets/story_vocabulary_card.dart';
 
 class StoryDetailsPage extends StatefulWidget {
   final StoryEntity story;
@@ -29,96 +35,25 @@ class _StoryDetailsPageState extends State<StoryDetailsPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Top Navigation & Hero Banner Stack
-            Stack(
-              children: [
-                // Top Gradient Cover Artwork
-                Container(
-                  height: 220,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: _getCoverGradient(story.id),
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+            // Top Hero Cover & Navigation Bar
+            StoryDetailsHeaderWidget(
+              story: story,
+              isBookmarked: _isBookmarked,
+              onBookmarkTap: () {
+                setState(() {
+                  _isBookmarked = !_isBookmarked;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      _isBookmarked
+                          ? 'Saved "${story.title}" to library'
+                          : 'Removed "${story.title}" from saved',
                     ),
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(32),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
-                        blurRadius: 16,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+                    duration: const Duration(seconds: 1),
                   ),
-                  child: Center(
-                    child: Icon(
-                      _getCoverIcon(story.id),
-                      size: 80,
-                      color: Colors.white.withOpacity(0.85),
-                    ),
-                  ),
-                ),
-
-                // Navigation Bar Buttons Overlay
-                Positioned(
-                  top: 12,
-                  left: 16,
-                  right: 16,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Back Button
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white.withOpacity(0.9),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: AppColors.navyBlue,
-                            size: 18,
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ),
-
-                      // Bookmark Save Button
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white.withOpacity(0.9),
-                        child: IconButton(
-                          icon: Icon(
-                            _isBookmarked
-                                ? Icons.bookmark_rounded
-                                : Icons.bookmark_outline_rounded,
-                            color: _isBookmarked
-                                ? const Color(0xFF635BFF)
-                                : AppColors.navyBlue,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isBookmarked = !_isBookmarked;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  _isBookmarked
-                                      ? 'Saved "${story.title}" to library'
-                                      : 'Removed "${story.title}" from saved',
-                                ),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                );
+              },
             ),
 
             // Scrollable Story Details & Text Reader
@@ -132,200 +67,35 @@ class _StoryDetailsPageState extends State<StoryDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Story Title & Badges
-                    Text(
-                      story.title,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.navyBlue,
-                        letterSpacing: -0.4,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star_rounded,
-                          size: 18,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${story.rating} (${story.reviewCount} reviews)',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.navyBlue,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Icon(
-                          Icons.access_time_rounded,
-                          size: 16,
-                          color: Color(0xFF718096),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          story.readTime,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Color(0xFF718096),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Title, Ratings & Category Badges Widget
+                    StoryDetailsMetadataWidget(story: story),
 
                     const SizedBox(height: 20),
 
-                    // Main Story Content Text
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            story.description,
-                            style: const TextStyle(
-                              fontSize: 15.5,
-                              height: 1.65,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.navyBlue,
-                            ),
-                          ),
-                          const SizedBox(height: 14),
-                          Text(
-                            'Every morning, the loyal friend greeted everyone in the village with joy. Through acts of bravery and unwavering kindness, a lifelong bond of love was forged.',
-                            style: TextStyle(
-                              fontSize: 15.5,
-                              height: 1.65,
-                              color: AppColors.navyBlue.withOpacity(0.9),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 14.0),
-                            child: Divider(color: Color(0xFFE2E8F0)),
-                          ),
-                          const Text(
-                            'ஒரு காலத்தில், கிராமத்தில் வாழ்ந்த ஒரு உண்மையுள்ள நண்பன் அன்பும் கருணையும் கொண்ட ஒரு நல்ல பாடத்தை கற்பித்தான்.',
-                            style: TextStyle(
-                              fontSize: 15.5,
-                              height: 1.65,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF1E293B),
-                            ),
-                          ),
-                          const SizedBox(height: 14),
-                          const Text(
-                            'வாழ்க்கையில் உண்மையாகவும் அன்பாகவும் இருப்பது எப்போதும் உயர்ந்த பெருமையைத் தரும் என்பது இந்த கதையின் கருத்தாகும்.',
-                            style: TextStyle(
-                              fontSize: 15.5,
-                              height: 1.65,
-                              color: Color(0xFF334155),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Dual Language English & Tamil Content Card Widget
+                    StoryContentCardWidget(story: story),
+
+                    const SizedBox(height: 18),
+
+                    // Key Vocabulary Builder Card Widget
+                    const StoryVocabularyCardWidget(),
+
+                    const SizedBox(height: 18),
+
+                    // Golden Moral Banner Card Widget
+                    const StoryMoralCardWidget(),
 
                     const SizedBox(height: 20),
-
-                    // Moral of the Story Highlight Card
-                    Container(
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFBEB),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: const Color(0xFFFDE68A),
-                          width: 1.2,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF59E0B),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.lightbulb_rounded,
-                              color: Colors.white,
-                              size: 22,
-                            ),
-                          ),
-                          const SizedBox(width: 14),
-                          const Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Moral of the Story / கதையின் நீதி',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF92400E),
-                                  ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Loyalty and kindness always win the hearts of others.\nஉண்மையும் அன்பும் எப்போதுமே வெற்றி பெறும்.',
-                                  style: TextStyle(
-                                    fontSize: 12.5,
-                                    height: 1.4,
-                                    color: Color(0xFFB45309),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 28),
                   ],
                 ),
               ),
             ),
+
+            // Sticky Bottom Action Bar Widget
+            StoryActionBarWidget(storyTitle: story.title),
           ],
         ),
       ),
     );
-  }
-
-  List<Color> _getCoverGradient(String id) {
-    if (id.contains('1')) {
-      return const [Color(0xFF15803D), Color(0xFF4ADE80)];
-    } else if (id.contains('2')) {
-      return const [Color(0xFF1E1B4B), Color(0xFF4338CA)];
-    } else {
-      return const [Color(0xFF0369A1), Color(0xFF38BDF8)];
-    }
-  }
-
-  IconData _getCoverIcon(String id) {
-    if (id.contains('1')) {
-      return Icons.pets_rounded;
-    } else if (id.contains('2')) {
-      return Icons.nightlight_round;
-    } else {
-      return Icons.wb_sunny_rounded;
-    }
   }
 }
