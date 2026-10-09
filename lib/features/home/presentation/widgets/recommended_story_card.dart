@@ -60,7 +60,7 @@ class RecommendedStoryCardWidget extends StatelessWidget {
                   ),
                 ),
 
-                // Favorite Heart Button
+                // Save Bookmark Button
                 Positioned(
                   top: 10,
                   right: 10,
@@ -70,8 +70,8 @@ class RecommendedStoryCardWidget extends StatelessWidget {
                       radius: 18,
                       backgroundColor: Colors.white.withOpacity(0.85),
                       child: Icon(
-                        story.isFavorite ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                        color: story.isFavorite ? Colors.redAccent : AppColors.navyBlue,
+                        story.isFavorite ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded,
+                        color: story.isFavorite ? const Color(0xFF635BFF) : AppColors.navyBlue,
                         size: 20,
                       ),
                     ),

@@ -45,7 +45,7 @@ class DiscoverStoryCard extends StatelessWidget {
                 child: Stack(
                   children: [
                     _buildCoverImage(story),
-                    // Favorite Heart Button
+                    // Save Bookmark Button
                     Positioned(
                       top: 12,
                       right: 12,
@@ -59,11 +59,11 @@ class DiscoverStoryCard extends StatelessWidget {
                           ),
                           child: Icon(
                             story.isFavorite
-                                ? Icons.favorite_rounded
-                                : Icons.favorite_border_rounded,
+                                ? Icons.bookmark_rounded
+                                : Icons.bookmark_border_rounded,
                             size: 20,
                             color: story.isFavorite
-                                ? const Color(0xFFEF4444)
+                                ? const Color(0xFF635BFF)
                                 : Colors.white,
                           ),
                         ),
@@ -204,16 +204,32 @@ class DiscoverStoryCard extends StatelessWidget {
     List<Color> colors;
 
     if (story.title.contains('Dog')) {
-      colors = [const Color(0xFF7C2D12), const Color(0xFFD97706), const Color(0xFF15803D)];
+      colors = [
+        const Color(0xFF7C2D12),
+        const Color(0xFFD97706),
+        const Color(0xFF15803D),
+      ];
       iconData = Icons.pets_rounded;
     } else if (story.title.contains('Moon')) {
-      colors = [const Color(0xFF090D16), const Color(0xFF1E1B4B), const Color(0xFF312E81)];
+      colors = [
+        const Color(0xFF090D16),
+        const Color(0xFF1E1B4B),
+        const Color(0xFF312E81),
+      ];
       iconData = Icons.nightlight_round;
     } else if (story.title.contains('Girl')) {
-      colors = [const Color(0xFF064E3B), const Color(0xFF047857), const Color(0xFF059669)];
+      colors = [
+        const Color(0xFF064E3B),
+        const Color(0xFF047857),
+        const Color(0xFF059669),
+      ];
       iconData = Icons.nature_people_rounded;
     } else {
-      colors = [const Color(0xFF9A3412), const Color(0xFFEA580C), const Color(0xFFF97316)];
+      colors = [
+        const Color(0xFF9A3412),
+        const Color(0xFFEA580C),
+        const Color(0xFFF97316),
+      ];
       iconData = Icons.forest_rounded;
     }
 
@@ -224,9 +240,7 @@ class DiscoverStoryCard extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: gradient,
-      ),
+      decoration: BoxDecoration(gradient: gradient),
       child: Stack(
         fit: StackFit.expand,
         children: [
