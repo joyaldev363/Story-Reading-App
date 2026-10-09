@@ -108,11 +108,10 @@ class _PrivacySecurityPageState extends State<PrivacySecurityPage> {
               ),
             ),
             const SizedBox(height: 12),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
+            Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
                   SwitchListTile(
@@ -168,11 +167,10 @@ class _PrivacySecurityPageState extends State<PrivacySecurityPage> {
               ),
             ),
             const SizedBox(height: 12),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
+            Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
                   SwitchListTile(
@@ -238,11 +236,10 @@ class _PrivacySecurityPageState extends State<PrivacySecurityPage> {
             const SizedBox(height: 24),
 
             // Account Actions
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
+            Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
               child: ListTile(
                 leading: const Icon(Icons.download_rounded, color: Color(0xFF635BFF)),
                 title: const Text(

@@ -33,18 +33,10 @@ class PreferencesSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            clipBehavior: Clip.antiAlias,
             child: Column(
               children: [
                 ProfileSettingTile(
