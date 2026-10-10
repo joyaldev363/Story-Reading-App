@@ -5,11 +5,7 @@ class HomeHeader extends StatelessWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onProfileTap;
 
-  const HomeHeader({
-    super.key,
-    this.onNotificationTap,
-    this.onProfileTap,
-  });
+  const HomeHeader({super.key, this.onNotificationTap, this.onProfileTap});
 
   @override
   Widget build(BuildContext context) {
@@ -85,22 +81,6 @@ class HomeHeader extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(width: 4),
-              GestureDetector(
-                onTap: onProfileTap,
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: const Color(0xFFEDE7F6),
-                  child: const Text(
-                    'A',
-                    style: TextStyle(
-                      color: AppColors.navyBlue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
