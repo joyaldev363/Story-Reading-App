@@ -32,6 +32,26 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
         readTime: '6 min read',
         badgeTag: 'Trending Story',
       ),
+      const StoryEntity(
+        id: '3',
+        title: 'The Magic Treehouse',
+        description:
+            'Secrets in the deep forest and a magical voyage across time.',
+        coverUrl: 'assets/images/stories/magic_treehouse.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '8 min read',
+        badgeTag: 'Popular Choice',
+      ),
+      const StoryEntity(
+        id: '4',
+        title: 'The Stars in the Jar',
+        description:
+            'Catching fallen stars and lighting up the night sky with wonder.',
+        coverUrl: 'assets/images/stories/stars_jar.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '6 min read',
+        badgeTag: 'Bedtime Special',
+      ),
     ];
 
     final categories = [
@@ -90,7 +110,8 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       const StoryEntity(
         id: 'rec_1',
         title: 'The Loyal Dog',
-        description: 'A heartwarming story about friendship, loyalty and kindness.',
+        description:
+            'A heartwarming story about friendship, loyalty and kindness.',
         coverUrl: 'assets/images/stories/loyal_dog.png',
         languageLabel: 'English | தமிழ்',
         readTime: '5 min',
@@ -112,7 +133,8 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       const StoryEntity(
         id: 'rec_3',
         title: 'The Kind Little Girl',
-        description: 'A sweet story about kindness, courage and helping others.',
+        description:
+            'A sweet story about kindness, courage and helping others.',
         coverUrl: 'assets/images/stories/kind_girl.png',
         languageLabel: 'English | தமிழ்',
         readTime: '6 min',
