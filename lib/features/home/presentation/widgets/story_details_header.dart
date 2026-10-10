@@ -16,11 +16,13 @@ class StoryDetailsHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+
     return Stack(
       children: [
         // Top Cover Artwork Image with Fallback Gradient
         Container(
-          height: 240,
+          height: 230 + topPadding,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(
@@ -44,7 +46,7 @@ class StoryDetailsHeaderWidget extends StatelessWidget {
 
         // Navigation Buttons Overlay
         Positioned(
-          top: 12,
+          top: topPadding + 10,
           left: 16,
           right: 16,
           child: Row(
