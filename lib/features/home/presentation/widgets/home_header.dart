@@ -4,8 +4,14 @@ import '../../../../app/theme/app_colors.dart';
 class HomeHeader extends StatelessWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onProfileTap;
+  final bool hasUnreadNotifications;
 
-  const HomeHeader({super.key, this.onNotificationTap, this.onProfileTap});
+  const HomeHeader({
+    super.key,
+    this.onNotificationTap,
+    this.onProfileTap,
+    this.hasUnreadNotifications = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +74,19 @@ class HomeHeader extends StatelessWidget {
                       size: 26,
                     ),
                   ),
-                  Positioned(
-                    right: 10,
-                    top: 10,
-                    child: Container(
-                      width: 9,
-                      height: 9,
-                      decoration: const BoxDecoration(
-                        color: Colors.redAccent,
-                        shape: BoxShape.circle,
+                  if (hasUnreadNotifications)
+                    Positioned(
+                      right: 10,
+                      top: 10,
+                      child: Container(
+                        width: 9,
+                        height: 9,
+                        decoration: const BoxDecoration(
+                          color: Colors.redAccent,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],
