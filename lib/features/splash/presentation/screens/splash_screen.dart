@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../app/router/dashboard_screen.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/storage/local_storage.dart';
 import '../../../onboarding/presentation/screens/onboarding_screen.dart';
 import '../widgets/splash_logo.dart';
 import '../widgets/splash_tagline.dart';
@@ -24,17 +26,24 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 3),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          _navigateToOnboarding();
+          _navigateToNext();
         }
       })
       ..forward();
   }
 
-  Future<void> _navigateToOnboarding() async {
+  Future<void> _navigateToNext() async {
     if (!mounted) return;
+    final isCompleted = await LocalStorage.isOnboardingCompleted();
+    if (!mounted) return;
+
+    final targetScreen = isCompleted
+        ? const DashboardScreen()
+        : const OnboardingScreen();
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const OnboardingScreen(),
+        builder: (context) => targetScreen,
       ),
     );
   }

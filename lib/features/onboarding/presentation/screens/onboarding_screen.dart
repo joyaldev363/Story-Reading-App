@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/storage/local_storage.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../data/datasources/onboarding_local_datasource.dart';
 import '../../domain/entities/onboarding_page.dart';
@@ -55,7 +56,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  void _navigateToNextScreen() {
+  Future<void> _navigateToNextScreen() async {
+    await LocalStorage.setOnboardingCompleted();
+    if (!mounted) return;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
     );
