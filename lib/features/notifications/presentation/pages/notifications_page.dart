@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import 'package:storyly/features/notifications/data/datasources/notifications_datasource.dart';
 import 'package:storyly/features/notifications/data/repositories/notifications_repository_impl.dart';
-import 'package:storyly/features/notifications/domain/usecases/get_notifications.dart';
 import 'package:storyly/features/notifications/presentation/controller/notifications_controller.dart';
 import 'package:storyly/features/notifications/presentation/widgets/notification_filter_chips.dart';
 import 'package:storyly/features/notifications/presentation/widgets/notification_tile.dart';
@@ -131,7 +130,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         itemCount: notifications.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        separatorBuilder: (context, index) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final item = notifications[index];
                           return NotificationTile(

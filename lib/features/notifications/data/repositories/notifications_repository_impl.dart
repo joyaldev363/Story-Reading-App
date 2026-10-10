@@ -10,9 +10,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
 
   @override
   Future<List<NotificationEntity>> getNotifications() async {
-    if (_cachedNotifications == null) {
-      _cachedNotifications = await dataSource.getNotifications();
-    }
+    _cachedNotifications ??= await dataSource.getNotifications();
     return List.unmodifiable(_cachedNotifications!);
   }
 

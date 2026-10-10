@@ -96,14 +96,16 @@ class StoryDetailsHeaderWidget extends StatelessWidget {
       return Image.network(
         story.coverUrl,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => _buildFallbackGradient(story.id),
+        errorBuilder: (context, error, stackTrace) =>
+            _buildFallbackGradient(story.id),
       );
     }
     if (story.coverUrl.isNotEmpty) {
       return Image.asset(
         story.coverUrl,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => _buildFallbackGradient(story.id),
+        errorBuilder: (context, error, stackTrace) =>
+            _buildFallbackGradient(story.id),
       );
     }
     return _buildFallbackGradient(story.id);

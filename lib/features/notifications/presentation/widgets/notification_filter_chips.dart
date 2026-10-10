@@ -28,7 +28,7 @@ class NotificationFilterChips extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (context, index) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final cat = categories[index];
           final categoryValue = cat['value'] as NotificationCategory;
