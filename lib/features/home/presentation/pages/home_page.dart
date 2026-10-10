@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../../app/theme/app_colors.dart';
-import '../../data/datasources/home_datasource.dart';
-import '../../data/repositories/home_repository_impl.dart';
-import '../../domain/entities/story.dart';
-import '../../domain/usecases/get_home_data.dart';
-import '../controller/home_controller.dart';
-import '../widgets/category_section.dart';
-import '../widgets/home_header.dart';
-import '../widgets/recommended_section.dart';
-import '../widgets/search_bar.dart';
-import '../widgets/story_banner.dart';
-import 'story_details_page.dart';
+import 'package:storyly/app/theme/app_colors.dart';
+import 'package:storyly/features/home/data/datasources/home_datasource.dart';
+import 'package:storyly/features/home/data/repositories/home_repository_impl.dart';
+import 'package:storyly/features/home/domain/entities/story.dart';
+import 'package:storyly/features/home/domain/usecases/get_home_data.dart';
+import 'package:storyly/features/home/presentation/controller/home_controller.dart';
+import 'package:storyly/features/home/presentation/widgets/category_section.dart';
+import 'package:storyly/features/home/presentation/widgets/home_header.dart';
+import 'package:storyly/features/home/presentation/widgets/recommended_section.dart';
+import 'package:storyly/features/home/presentation/widgets/search_bar.dart';
+import 'package:storyly/features/home/presentation/widgets/story_banner.dart';
+import 'package:storyly/features/home/presentation/pages/story_details_page.dart';
+import 'package:storyly/features/notifications/presentation/pages/notifications_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,9 +42,14 @@ class _HomePageState extends State<HomePage> {
   void _openStoryDetails(BuildContext context, StoryEntity story) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => StoryDetailsPage(story: story),
-      ),
+      MaterialPageRoute(builder: (context) => StoryDetailsPage(story: story)),
+    );
+  }
+
+  void _openNotifications(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationsPage()),
     );
   }
 
@@ -72,7 +78,9 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Top Header
-                  const HomeHeader(),
+                  HomeHeader(
+                    onNotificationTap: () => _openNotifications(context),
+                  ),
 
                   // Search Bar
                   HomeSearchBar(
@@ -103,8 +111,7 @@ class _HomePageState extends State<HomePage> {
                   // Recommended for You Section
                   RecommendedSectionWidget(
                     stories: _controller.filteredRecommendedStories,
-                    onStoryTap: (story) =>
-                        _openStoryDetails(context, story),
+                    onStoryTap: (story) => _openStoryDetails(context, story),
                     onFavoriteTap: (story) =>
                         _controller.toggleFavorite(story.id),
                   ),

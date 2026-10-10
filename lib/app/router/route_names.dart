@@ -4,5 +4,6 @@ class RouteNames {
   static const String languageSelection = '/language-selection';
   static const String home = '/home';
   static const String storyDetail = '/story-detail';
+  static const String notifications = '/notifications';
 }
 
