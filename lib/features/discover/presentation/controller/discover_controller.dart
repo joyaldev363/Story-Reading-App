@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../saved/data/datasources/saved_datasource.dart';
+import '../../../saved/domain/entities/saved_story.dart';
 import '../../domain/entities/discover_story.dart';
 import '../../domain/usecases/get_popular_stories.dart';
 import '../../domain/usecases/search_stories.dart';
@@ -6,11 +8,15 @@ import '../../domain/usecases/search_stories.dart';
 class DiscoverController extends ChangeNotifier {
   final GetPopularStories getPopularStoriesUseCase;
   final SearchStories searchStoriesUseCase;
+  final SavedDataSource savedDataSource;
 
   DiscoverController({
     required this.getPopularStoriesUseCase,
     required this.searchStoriesUseCase,
-  });
+    this.savedDataSource = const SavedLocalDataSourceImpl(),
+  }) {
+    SavedLocalDataSourceImpl.savedUpdateNotifier.addListener(_syncSavedStatus);
+  }
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -31,7 +37,13 @@ class DiscoverController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _popularStories = await getPopularStoriesUseCase();
+      final fetched = await getPopularStoriesUseCase();
+      final updated = <DiscoverStory>[];
+      for (final story in fetched) {
+        final isSaved = await savedDataSource.isStorySaved(story.id);
+        updated.add(story.copyWith(isFavorite: isSaved));
+      }
+      _popularStories = updated;
       _filteredStories = List.from(_popularStories);
     } catch (_) {
       // Handle error state gracefully
@@ -41,6 +53,25 @@ class DiscoverController extends ChangeNotifier {
     }
   }
 
+  Future<void> _syncSavedStatus() async {
+    final updated = <DiscoverStory>[];
+    for (final story in _popularStories) {
+      final isSaved = await savedDataSource.isStorySaved(story.id);
+      updated.add(story.copyWith(isFavorite: isSaved));
+    }
+    _popularStories = updated;
+
+    if (_searchQuery.trim().isEmpty) {
+      _filteredStories = List.from(_popularStories);
+    } else {
+      _filteredStories = _filteredStories.map((s) {
+        final matching = _popularStories.firstWhere((p) => p.id == s.id, orElse: () => s);
+        return s.copyWith(isFavorite: matching.isFavorite);
+      }).toList();
+    }
+    notifyListeners();
+  }
+
   Future<void> onSearchChanged(String query) async {
     _searchQuery = query;
     notifyListeners();
@@ -48,7 +79,13 @@ class DiscoverController extends ChangeNotifier {
     if (query.trim().isEmpty) {
       _filteredStories = List.from(_popularStories);
     } else {
-      _filteredStories = await searchStoriesUseCase(query);
+      final results = await searchStoriesUseCase(query);
+      final updated = <DiscoverStory>[];
+      for (final story in results) {
+        final isSaved = await savedDataSource.isStorySaved(story.id);
+        updated.add(story.copyWith(isFavorite: isSaved));
+      }
+      _filteredStories = updated;
     }
     notifyListeners();
   }
@@ -59,26 +96,48 @@ class DiscoverController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavorite(String storyId) {
-    _popularStories = _popularStories.map((story) {
-      if (story.id == storyId) {
-        return story.copyWith(isFavorite: !story.isFavorite);
-      }
-      return story;
-    }).toList();
+  Future<void> toggleFavorite(String storyId) async {
+    final index = _popularStories.indexWhere((s) => s.id == storyId);
+    if (index == -1) return;
 
-    _filteredStories = _filteredStories.map((story) {
-      if (story.id == storyId) {
-        return story.copyWith(isFavorite: !story.isFavorite);
-      }
-      return story;
-    }).toList();
+    final targetStory = _popularStories[index];
+    final newFavoriteStatus = !targetStory.isFavorite;
+
+    _popularStories[index] = targetStory.copyWith(isFavorite: newFavoriteStatus);
+
+    final filteredIndex = _filteredStories.indexWhere((s) => s.id == storyId);
+    if (filteredIndex != -1) {
+      _filteredStories[filteredIndex] =
+          _filteredStories[filteredIndex].copyWith(isFavorite: newFavoriteStatus);
+    }
 
     notifyListeners();
+
+    final savedStory = SavedStory(
+      id: targetStory.id,
+      title: targetStory.title,
+      description: targetStory.description,
+      coverUrl: targetStory.coverUrl,
+      languageLabel: targetStory.languageLabel,
+      readTime: targetStory.readTime,
+      rating: targetStory.rating,
+      reviewCount: targetStory.reviewCount,
+      isSaved: true,
+      status: SavedReadStatus.unread,
+      savedAt: DateTime.now(),
+    );
+
+    await savedDataSource.toggleSavedStory(savedStory);
   }
 
   void clearNotificationBadge() {
     _hasNotification = false;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    SavedLocalDataSourceImpl.savedUpdateNotifier.removeListener(_syncSavedStatus);
+    super.dispose();
   }
 }

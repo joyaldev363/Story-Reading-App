@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../saved/data/datasources/saved_datasource.dart';
+import '../../../saved/domain/entities/saved_story.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/home_data.dart';
 import '../../domain/entities/story.dart';
@@ -6,8 +8,14 @@ import '../../domain/usecases/get_home_data.dart';
 
 class HomeController extends ChangeNotifier {
   final GetHomeData getHomeDataUseCase;
+  final SavedDataSource savedDataSource;
 
-  HomeController({required this.getHomeDataUseCase});
+  HomeController({
+    required this.getHomeDataUseCase,
+    this.savedDataSource = const SavedLocalDataSourceImpl(),
+  }) {
+    SavedLocalDataSourceImpl.savedUpdateNotifier.addListener(_syncSavedStatus);
+  }
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -98,13 +106,42 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _homeData = await getHomeDataUseCase();
+      final fetchedData = await getHomeDataUseCase();
+      final updatedStories = <StoryEntity>[];
+
+      for (final story in fetchedData.recommendedStories) {
+        final isSaved = await savedDataSource.isStorySaved(story.id);
+        updatedStories.add(story.copyWith(isFavorite: isSaved));
+      }
+
+      _homeData = HomeDataEntity(
+        featuredBanners: fetchedData.featuredBanners,
+        categories: fetchedData.categories,
+        recommendedStories: updatedStories,
+      );
     } catch (_) {
       // Handle error gracefully
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> _syncSavedStatus() async {
+    if (_homeData == null) return;
+
+    final updatedStories = <StoryEntity>[];
+    for (final story in _homeData!.recommendedStories) {
+      final isSaved = await savedDataSource.isStorySaved(story.id);
+      updatedStories.add(story.copyWith(isFavorite: isSaved));
+    }
+
+    _homeData = HomeDataEntity(
+      featuredBanners: _homeData!.featuredBanners,
+      categories: _homeData!.categories,
+      recommendedStories: updatedStories,
+    );
+    notifyListeners();
   }
 
   void onBannerPageChanged(int index) {
@@ -117,22 +154,50 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavorite(String storyId) {
+  Future<void> toggleFavorite(String storyId) async {
     if (_homeData == null) return;
 
-    final updatedRecommended = _homeData!.recommendedStories.map((story) {
-      if (story.id == storyId) {
-        return story.copyWith(isFavorite: !story.isFavorite);
-      }
-      return story;
-    }).toList();
+    final index =
+        _homeData!.recommendedStories.indexWhere((s) => s.id == storyId);
+    if (index == -1) return;
+
+    final targetStory = _homeData!.recommendedStories[index];
+    final newFavoriteStatus = !targetStory.isFavorite;
+
+    final updatedRecommended = List<StoryEntity>.from(
+      _homeData!.recommendedStories,
+    );
+    updatedRecommended[index] =
+        targetStory.copyWith(isFavorite: newFavoriteStatus);
 
     _homeData = HomeDataEntity(
       featuredBanners: _homeData!.featuredBanners,
       categories: _homeData!.categories,
       recommendedStories: updatedRecommended,
     );
-
     notifyListeners();
+
+    final savedStory = SavedStory(
+      id: targetStory.id,
+      title: targetStory.title,
+      description: targetStory.description,
+      coverUrl: targetStory.coverUrl,
+      languageLabel: targetStory.languageLabel,
+      readTime: targetStory.readTime,
+      rating: targetStory.rating,
+      reviewCount: targetStory.reviewCount,
+      isSaved: true,
+      status: SavedReadStatus.unread,
+      savedAt: DateTime.now(),
+    );
+
+    await savedDataSource.toggleSavedStory(savedStory);
+  }
+
+  @override
+  void dispose() {
+    SavedLocalDataSourceImpl.savedUpdateNotifier
+        .removeListener(_syncSavedStatus);
+    super.dispose();
   }
 }
