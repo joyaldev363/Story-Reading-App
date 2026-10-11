@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/datasources/saved_datasource.dart';
 import '../../domain/entities/saved_story.dart';
 import '../../domain/usecases/get_saved_stories.dart';
 import '../../domain/usecases/remove_saved_story.dart';
@@ -16,7 +17,13 @@ class SavedController extends ChangeNotifier {
     required this.searchSavedStoriesUseCase,
     required this.removeSavedStoryUseCase,
     required this.toggleSavedStoryUseCase,
-  });
+  }) {
+    SavedLocalDataSourceImpl.savedUpdateNotifier.addListener(_onStorageUpdated);
+  }
+
+  void _onStorageUpdated() {
+    loadSavedStories(silent: true);
+  }
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -31,8 +38,10 @@ class SavedController extends ChangeNotifier {
   SavedReadStatus get selectedFilter => _selectedFilter;
 
   int get allCount => _allStories.length;
-  int get unreadCount => _allStories.where((s) => s.status == SavedReadStatus.unread).length;
-  int get readingCount => _allStories.where((s) => s.status == SavedReadStatus.reading).length;
+  int get unreadCount =>
+      _allStories.where((s) => s.status == SavedReadStatus.unread).length;
+  int get readingCount =>
+      _allStories.where((s) => s.status == SavedReadStatus.reading).length;
 
   List<SavedStory> get filteredStories {
     return _allStories.where((story) {
@@ -56,14 +65,15 @@ class SavedController extends ChangeNotifier {
     }).toList();
   }
 
-  Future<void> loadSavedStories() async {
-    _isLoading = true;
-    notifyListeners();
+  Future<void> loadSavedStories({bool silent = false}) async {
+    if (!silent) {
+      _isLoading = true;
+      notifyListeners();
+    }
 
     try {
       _allStories = await getSavedStoriesUseCase();
     } catch (_) {
-      // Handle error gracefully
       _allStories = [];
     } finally {
       _isLoading = false;
@@ -81,25 +91,19 @@ class SavedController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleSaved(String storyId) async {
-    final index = _allStories.indexWhere((s) => s.id == storyId);
-    if (index != -1) {
-      final story = _allStories[index];
-      final newIsSaved = !story.isSaved;
-
-      if (!newIsSaved) {
-        _allStories.removeAt(index);
-      } else {
-        _allStories[index] = story.copyWith(isSaved: true);
-      }
-      notifyListeners();
-      await toggleSavedStoryUseCase(storyId);
-    }
+  Future<void> toggleSaved(SavedStory story) async {
+    await toggleSavedStoryUseCase(story);
   }
 
   Future<void> removeStory(String storyId) async {
     _allStories.removeWhere((s) => s.id == storyId);
     notifyListeners();
     await removeSavedStoryUseCase(storyId);
+  }
+
+  @override
+  void dispose() {
+    SavedLocalDataSourceImpl.savedUpdateNotifier.removeListener(_onStorageUpdated);
+    super.dispose();
   }
 }

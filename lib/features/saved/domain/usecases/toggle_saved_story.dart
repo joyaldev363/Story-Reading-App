@@ -1,3 +1,4 @@
+import '../entities/saved_story.dart';
 import '../repositories/saved_repository.dart';
 
 class ToggleSavedStory {
@@ -5,7 +6,7 @@ class ToggleSavedStory {
 
   ToggleSavedStory(this.repository);
 
-  Future<void> call(String storyId) async {
-    return await repository.toggleSavedStory(storyId);
+  Future<bool> call(SavedStory story) async {
+    return await repository.toggleSavedStory(story);
   }
 }
