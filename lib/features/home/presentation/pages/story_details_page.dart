@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../saved/data/datasources/saved_datasource.dart';
+import '../../../saved/domain/entities/saved_story.dart';
 import '../../domain/entities/story.dart';
 import '../widgets/story_action_bar.dart';
 import '../widgets/story_content_card.dart';
@@ -19,11 +21,57 @@ class StoryDetailsPage extends StatefulWidget {
 
 class _StoryDetailsPageState extends State<StoryDetailsPage> {
   late bool _isBookmarked;
+  final SavedDataSource _savedDataSource = const SavedLocalDataSourceImpl();
 
   @override
   void initState() {
     super.initState();
     _isBookmarked = widget.story.isFavorite;
+    _checkSavedStatus();
+  }
+
+  Future<void> _checkSavedStatus() async {
+    final isSaved = await _savedDataSource.isStorySaved(widget.story.id);
+    if (mounted) {
+      setState(() {
+        _isBookmarked = isSaved;
+      });
+    }
+  }
+
+  Future<void> _toggleBookmark() async {
+    final story = widget.story;
+    final savedStory = SavedStory(
+      id: story.id,
+      title: story.title,
+      description: story.description,
+      coverUrl: story.coverUrl,
+      languageLabel: story.languageLabel,
+      readTime: story.readTime,
+      rating: story.rating,
+      reviewCount: story.reviewCount,
+      isSaved: true,
+      status: SavedReadStatus.unread,
+      savedAt: DateTime.now(),
+    );
+
+    final isNowSaved = await _savedDataSource.toggleSavedStory(savedStory);
+
+    if (mounted) {
+      setState(() {
+        _isBookmarked = isNowSaved;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isNowSaved
+                ? 'Saved "${story.title}" to library'
+                : 'Removed "${story.title}" from saved',
+          ),
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    }
   }
 
   @override
@@ -38,21 +86,7 @@ class _StoryDetailsPageState extends State<StoryDetailsPage> {
           StoryDetailsHeaderWidget(
             story: story,
             isBookmarked: _isBookmarked,
-            onBookmarkTap: () {
-              setState(() {
-                _isBookmarked = !_isBookmarked;
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    _isBookmarked
-                        ? 'Saved "${story.title}" to library'
-                        : 'Removed "${story.title}" from saved',
-                  ),
-                  duration: const Duration(seconds: 1),
-                ),
-              );
-            },
+            onBookmarkTap: _toggleBookmark,
           ),
 
           // Scrollable Story Details & Text Reader
