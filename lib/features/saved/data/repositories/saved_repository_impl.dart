@@ -23,7 +23,12 @@ class SavedRepositoryImpl implements SavedRepository {
   }
 
   @override
-  Future<void> toggleSavedStory(String storyId) async {
-    await dataSource.toggleSavedStory(storyId);
+  Future<bool> toggleSavedStory(SavedStory story) async {
+    return await dataSource.toggleSavedStory(story);
+  }
+
+  @override
+  Future<bool> isStorySaved(String storyId) async {
+    return await dataSource.isStorySaved(storyId);
   }
 }

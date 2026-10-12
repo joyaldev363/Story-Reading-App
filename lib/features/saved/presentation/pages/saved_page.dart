@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../home/domain/entities/story.dart';
+import '../../../home/presentation/pages/story_details_page.dart';
 import '../../data/datasources/saved_datasource.dart';
 import '../../data/repositories/saved_repository_impl.dart';
+import '../../domain/entities/saved_story.dart';
 import '../../domain/usecases/get_saved_stories.dart';
 import '../../domain/usecases/remove_saved_story.dart';
 import '../../domain/usecases/search_saved_stories.dart';
@@ -25,7 +28,7 @@ class _SavedPageState extends State<SavedPage> {
   @override
   void initState() {
     super.initState();
-    final dataSource = SavedLocalDataSourceImpl();
+    const dataSource = SavedLocalDataSourceImpl();
     final repository = SavedRepositoryImpl(dataSource: dataSource);
 
     _controller = SavedController(
@@ -42,6 +45,27 @@ class _SavedPageState extends State<SavedPage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _openStoryDetails(BuildContext context, SavedStory story) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StoryDetailsPage(
+          story: StoryEntity(
+            id: story.id,
+            title: story.title,
+            description: story.description,
+            coverUrl: story.coverUrl,
+            languageLabel: story.languageLabel,
+            readTime: story.readTime,
+            rating: story.rating,
+            reviewCount: story.reviewCount,
+            isFavorite: true,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -129,7 +153,7 @@ class _SavedPageState extends State<SavedPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Try searching for another story or changing filters',
+                              'Save stories from Home or Story Details to view them here',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade500,
@@ -147,16 +171,9 @@ class _SavedPageState extends State<SavedPage> {
                           final story = stories[index];
                           return SavedStoryCard(
                             story: story,
-                            onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Opening ${story.title}'),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
-                            },
+                            onTap: () => _openStoryDetails(context, story),
                             onBookmarkTap: () =>
-                                _controller.toggleSaved(story.id),
+                                _controller.toggleSaved(story),
                           );
                         }, childCount: stories.length),
                       ),
