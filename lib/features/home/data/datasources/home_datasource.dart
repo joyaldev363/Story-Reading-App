@@ -52,6 +52,46 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
         readTime: '6 min read',
         badgeTag: 'Bedtime Special',
       ),
+      const StoryEntity(
+        id: '5',
+        title: 'The Stars in the Jar',
+        description:
+            'Catching fallen stars and lighting up the night sky with wonder.',
+        coverUrl: 'assets/images/stories/stars_jar.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '6 min read',
+        badgeTag: 'Bedtime Special',
+      ),
+      const StoryEntity(
+        id: '6',
+        title: 'The Stars in the Jar',
+        description:
+            'Catching fallen stars and lighting up the night sky with wonder.',
+        coverUrl: 'assets/images/stories/stars_jar.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '6 min read',
+        badgeTag: 'Bedtime Special',
+      ),
+      const StoryEntity(
+        id: '7',
+        title: 'The Stars in the Jar',
+        description:
+            'Catching fallen stars and lighting up the night sky with wonder.',
+        coverUrl: 'assets/images/stories/stars_jar.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '6 min read',
+        badgeTag: 'Bedtime Special',
+      ),
+      const StoryEntity(
+        id: '8',
+        title: 'The Stars in the Jar',
+        description:
+            'Catching fallen stars and lighting up the night sky with wonder.',
+        coverUrl: 'assets/images/stories/stars_jar.png',
+        languageLabel: 'English | தமிழ்',
+        readTime: '6 min read',
+        badgeTag: 'Bedtime Special',
+      ),
     ];
 
     final categories = [
