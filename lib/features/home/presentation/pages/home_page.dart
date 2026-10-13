@@ -95,6 +95,8 @@ class _HomePageState extends State<HomePage> {
                     activeIndex: _controller.activeBannerIndex,
                     onPageChanged: (index) =>
                         _controller.onBannerPageChanged(index),
+                    onReadStoryTap: (story) =>
+                        _openStoryDetails(context, story),
                   ),
 
                   // Categories Section
