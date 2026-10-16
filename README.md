@@ -1,4 +1,4 @@
-# Storyly - Tamil + English Bilingual Story Reading App
+# Storyly - Story Reading App
 
 Storyly is a simple, distraction-free Tamil + English bilingual story reading app built with Flutter. Designed to help users enjoy engaging stories while enhancing their English and Tamil reading comprehension and language skills.
 
